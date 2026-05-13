@@ -15,8 +15,8 @@ try {
     $mail->SMTPAuth   = true;
     $mail->Username   = 'progemni7@gmail.com'; 
     $mail->Password   = 'xsmtpsib-a7511f46cc34624fd866b971d375c5db7d4504116a5633c5ce90d56d23872346-RwGe4vf7NfXet8Nw'; 
-    $mail->Port       = 587;
-    $mail->SMTPSecure = 'tls'; 
+    $mail->Port       = 465;
+    $mail->SMTPSecure = 'ssl'; 
 
     // Email Details
     $mail->setFrom('arzajejo@arzajejo.xyz', 'Arzajejo Website');
