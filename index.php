@@ -20,7 +20,7 @@ try {
 
     // Email Details
     $mail->setFrom('arzajejo@arzajejo.xyz', 'Arzajejo Website');
-    $mail->addAddress('alibrohi883@gmail.com'); 
+    $mail->addAddress('progemni7@gmail.com'); 
 
     $mail->isHTML(true);
     $mail->Subject = 'New Submission from ' . $_POST['email'];
