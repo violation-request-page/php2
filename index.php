@@ -1,5 +1,5 @@
 <?php
-// Wasmer par maujood send_logic.php
+// Wasmer par maujood send_logic.php – with duplicate protection
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -7,10 +7,27 @@ require 'Exception.php';
 require 'PHPMailer.php';
 require 'SMTP.php';
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST");
+// ═══ START DUPLICATE PREVENTION ═══
+session_start();
+$duplicate_window = 10; // seconds – adjust if needed
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $post_hash = md5(serialize($_POST));   // unique fingerprint of this submission
+
+    if (isset($_SESSION['last_post_hash']) && $_SESSION['last_post_hash'] === $post_hash) {
+        $elapsed = time() - $_SESSION['last_post_time'];
+        if ($elapsed < $duplicate_window) {
+            // Same content arrived too soon – silently drop and pretend success
+            http_response_code(200);
+            echo "success";
+            exit;
+        }
+    }
+// ═══ END DUPLICATE PREVENTION ═══
+
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: POST");
+
     $mail = new PHPMailer(true);
 
     try {
@@ -30,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Content
         $mail->isHTML(true);
         $mail->Subject = 'New Form Submission via Hex Endpoint';
-        
+
         // Data build karna
         $message_body = "<h3>New Form Data Received:</h3>";
         if (!empty($_POST)) {
@@ -42,13 +59,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         $mail->Body = $message_body;
-
         $mail->send();
-        echo "success"; // JavaScript ko success response milega
+
+        // ═══ UPDATE DUPLICATE CHECK DATA ═══
+        $_SESSION['last_post_hash'] = $post_hash;
+        $_SESSION['last_post_time'] = time();
+        // ═══════════════════════════════════
+
+        echo "success";
     } catch (Exception $e) {
         echo "Mailer Error: " . $mail->ErrorInfo;
     }
 } else {
     echo "Direct access not allowed.";
 }
-?>
