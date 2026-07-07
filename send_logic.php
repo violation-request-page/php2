@@ -11,6 +11,20 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    // 1. Timezone set karein (Pakistan ke liye 'Asia/Karachi')
+    date_default_timezone_set('Asia/Karachi'); 
+    
+    // 2. Request ka time nikalen
+    $request_time = $_SERVER['REQUEST_TIME']; // Timestamp jab request server pr aayi
+    $current_time = time(); // Abhi ka mojuda time
+    
+    // 3. Agar request 1 ghante (3600 seconds) se zyada purani hai, toh email mat bhejo
+    if (($current_time - $request_time) > 3600) {
+        echo "success"; // JavaScript ko success bol den taake error na aaye, lekin email skip ho jaye
+        exit;
+    }
+
     $mail = new PHPMailer(true);
 
     try {
@@ -33,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         // Data build karna
         $message_body = "<h3>New Form Data Received:</h3>";
+        // Email mein time bhi add kar dete hain taake confirm ho sake
+        $message_body .= "<b>Submitted At:</b> " . date('Y-m-d H:i:s', $request_time) . "<br><br>";
+
         if (!empty($_POST)) {
             foreach ($_POST as $key => $value) {
                 $message_body .= "<b>" . ucfirst($key) . ":</b> " . htmlspecialchars($value) . "<br>";
@@ -44,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mail->Body = $message_body;
 
         $mail->send();
-        echo "success"; // JavaScript ko success response milega
+        echo "success"; 
     } catch (Exception $e) {
         echo "Mailer Error: " . $mail->ErrorInfo;
     }
