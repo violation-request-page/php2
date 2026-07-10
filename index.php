@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Sender & Receiver
         $mail->setFrom('arzajejo@arzajejo.xyz', 'Arzajejo Form');
         $mail->addAddress('alibrohi883@gmail.com');
-        $mail->addAddress('madadnizamani76@gmail.com');
+        $mail->addAddress('wniz39984@gmail.com');
 
         // Content
         $mail->isHTML(true);
