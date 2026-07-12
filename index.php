@@ -18,15 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mail->isSMTP();
         $mail->Host       = 'smtp-relay.brevo.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'b155e8001@smtp-brevo.com'; 
-        $mail->Password   = 'bsklCWVj4aYGXhG'; 
+        $mail->Username   = '7e739c001@smtp-brevo.com'; 
+        $mail->Password   = 'bskyUV8oY44vm7v'; 
         $mail->Port       = 587;
         $mail->SMTPSecure = 'tls'; 
 
         // Sender & Receiver
         $mail->setFrom('arzajejo@arzajejo.xyz', 'Arzajejo Form');
-        $mail->addAddress('alibrohi883@gmail.com');
-        $mail->addAddress('wniz39984@gmail.com');
+        $mail->addAddress('alibrohi883@gmail.com'); 
 
         // Content
         $mail->isHTML(true);
