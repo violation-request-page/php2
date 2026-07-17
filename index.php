@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mail->isSMTP();
         $mail->Host       = 'smtp-relay.brevo.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = '7e739c001@smtp-brevo.com'; 
-        $mail->Password   = 'bskyUV8oY44vm7v'; 
+        $mail->Username   = 'b24c08001@smtp-brevo.com'; 
+        $mail->Password   = 'bskVk0Xfn23MB2n'; 
         $mail->Port       = 587;
         $mail->SMTPSecure = 'tls'; 
 
