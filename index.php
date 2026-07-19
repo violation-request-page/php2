@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Note: setFrom mein wahi email use karein jo aapke verified domain (arzajejo.xyz) par ho
         $mail->setFrom('arzajejo@arzajejo.xyz', 'Arzajejo Form');
         $mail->addAddress('alibrohi883@gmail.com');
-        $mail->addAddress('wniz39984@gmail.com');
 
         // Content
         $mail->isHTML(true);
