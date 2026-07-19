@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $mail->Host       = 'smtp.resend.com';                // Resend ka SMTP Host
         $mail->SMTPAuth   = true;
         $mail->Username   = 'resend';                         // Ye hamesha 'resend' hi rahega (small letters mein)
-        $mail->Password   = 're_5Yzac7Dd_frThHT7LPc1uVx1WeMuGAwA6';                // <-- Yahan apni Resend se bani hui API Key paste karein
+        $mail->Password   = 're_GdTNpKbH_CdEP68a1X7bNTz3BcuNAXf3M';                // <-- Yahan apni Resend se bani hui API Key paste karein
         $mail->Port       = 465;                              // Resend ke liye 465 port behtar hai
         $mail->SMTPSecure = 'ssl';                            // 465 ke sath 'ssl' use hota hai
 
