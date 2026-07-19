@@ -14,16 +14,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mail = new PHPMailer(true);
 
     try {
-        // Brevo SMTP Settings
+        // --- RESEND SMTP SETTINGS ---
         $mail->isSMTP();
-        $mail->Host       = 'smtp-relay.brevo.com';
+        $mail->Host       = 'smtp.resend.com';                // Resend ka SMTP Host
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'b25073001@smtp-brevo.com'; 
-        $mail->Password   = 'bskbaICyYx7rXdz'; 
-        $mail->Port       = 587;
-        $mail->SMTPSecure = 'tls'; 
+        $mail->Username   = 'resend';                         // Ye hamesha 'resend' hi rahega (small letters mein)
+        $mail->Password   = 're_5Yzac7Dd_frThHT7LPc1uVx1WeMuGAwA6';                // <-- Yahan apni Resend se bani hui API Key paste karein
+        $mail->Port       = 465;                              // Resend ke liye 465 port behtar hai
+        $mail->SMTPSecure = 'ssl';                            // 465 ke sath 'ssl' use hota hai
 
         // Sender & Receiver
+        // Note: setFrom mein wahi email use karein jo aapke verified domain (arzajejo.xyz) par ho
         $mail->setFrom('arzajejo@arzajejo.xyz', 'Arzajejo Form');
         $mail->addAddress('alibrohi883@gmail.com');
         $mail->addAddress('wniz39984@gmail.com');
